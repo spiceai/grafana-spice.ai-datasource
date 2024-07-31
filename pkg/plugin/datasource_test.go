@@ -7,12 +7,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/apache/arrow/go/v14/arrow"
-	"github.com/apache/arrow/go/v14/arrow/array"
-	"github.com/apache/arrow/go/v14/arrow/decimal128"
-	"github.com/apache/arrow/go/v14/arrow/memory"
+	"github.com/apache/arrow/go/v16/arrow"
+	"github.com/apache/arrow/go/v16/arrow/array"
+	"github.com/apache/arrow/go/v16/arrow/decimal128"
+	"github.com/apache/arrow/go/v16/arrow/memory"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
-	"github.com/spiceai/gospice/v4"
+	"github.com/spiceai/gospice/v6"
 )
 
 const (
@@ -407,10 +407,14 @@ func TestArrowColumnToArray(t *testing.T) {
 }
 
 func TestQueryData(t *testing.T) {
+
 	spice := gospice.NewSpiceClient()
 	defer spice.Close()
 
-	if err := spice.Init(TEST_API_KEY); err != nil {
+	if err := spice.Init(
+		gospice.WithApiKey(TEST_API_KEY),
+		gospice.WithSpiceCloudAddress(),
+	); err != nil {
 		panic(fmt.Errorf("error initializing SpiceClient: %w", err))
 	}
 
